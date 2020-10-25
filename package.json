@@ -1,0 +1,15 @@
+{
+	"name": "megatest",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "npm start --prefix server",
+		"client": "npm start --prefix client",
+		"clientinstall": "npm install --prefix client",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --prefix server && npm run build --prefix client"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
