@@ -83,12 +83,14 @@ const NavScreenWrapper = styled.div`
 							}
 						}
 						.original-custom {
+							user-select: none;
 							position: relative;
 							height: 300px;
 							/* font-family: fujimaru; */
 							font-size: 2.5rem;
 
 							.original-custom-circle {
+								user-select: none;
 								z-index: -1;
 								position: absolute;
 								height: 300px;
