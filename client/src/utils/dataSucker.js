@@ -1,5 +1,5 @@
 export const customLevelsGet = (callback) => {
-	fetch('http://localhost:8080/lvl', {
+	fetch('/lvl', {
 		method: 'get',
 		headers: {},
 	})
