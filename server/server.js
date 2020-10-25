@@ -35,7 +35,7 @@ const getLevels = (req, res) => {
 	res.json([...lvlData]);
 };
 
-server.get('/', getLevels);
+server.get('/lvl', getLevels);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
