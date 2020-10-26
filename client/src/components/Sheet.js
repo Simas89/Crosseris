@@ -228,8 +228,8 @@ const SheetWrapper = styled.div`
 `;
 
 const calc = (x, y) => [
-	-(y - window.innerHeight / 2) / 200,
-	(x - window.innerWidth / 2) / 200,
+	-(y - window.innerHeight / 2) / 300,
+	(x - window.innerWidth / 2) / 300,
 	1,
 ];
 const trans = (x, y, s) =>
