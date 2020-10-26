@@ -10,7 +10,7 @@ const initialState = {
 	custom: [],
 	original: levelData,
 	channel: levelData,
-	api: 'ORIGINAL',
+	api: null,
 };
 
 export default (state = initialState, action = {}) =>
@@ -25,7 +25,7 @@ export default (state = initialState, action = {}) =>
 
 				break;
 			case SET_ORIGINAL_OR_CUSTOM_LVL_DATA_API:
-				console.log(action.payload);
+				// console.log(action.payload);
 				draft.api = action.payload;
 				if (action.payload === 'ORIGINAL') {
 					draft.channel = state.original;

@@ -7,4 +7,4 @@ export * from './isObjEmpty';
 export * from './compareMatch';
 export * from './isTouch';
 export * from './localStorageCompletedLevels';
-export * from './dataSucker';
+export * from './fetchCustomLevels';

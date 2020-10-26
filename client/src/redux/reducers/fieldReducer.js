@@ -298,6 +298,11 @@ export default (state = initialState, action = {}) =>
 								: draftState.levelPlay.cords.y > 5 &&
 								  draftState.levelPlay.cords.y--;
 						}
+						draftState.blockScale = calcBlockSize(
+							{ xStack: state.xStack, yStack: state.yStack },
+							state.windowSize,
+							state.minBlockScale,
+						);
 					}),
 				};
 

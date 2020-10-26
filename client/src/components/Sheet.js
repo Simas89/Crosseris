@@ -16,6 +16,7 @@ import styled, { css } from 'styled-components';
 import Block from './Block';
 import TopAparatas from './TopAparatas';
 import Modal from './Modal';
+import { customLevelsUpload } from '../utils';
 
 import StackBlockContainer from './StackBlockContainer';
 import useWindowSize from '../hooks/useWindowSize';
@@ -122,7 +123,7 @@ const SheetWrapper = styled.div`
 		/* border: 1px solid gray; */
 		width: calc(100% + 50px);
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		align-items: center;
 
 		> span {
@@ -158,8 +159,14 @@ const SheetWrapper = styled.div`
 		}
 
 		.span-title {
+			overflow: hidden;
+			white-space: nowrap;
+			padding-left: 20px;
+			width: calc(100% - 105px);
+			float: left;
+
 			/* padding-left: 85px; */
-			position: absolute;
+			/* position: absolute; */
 			left: 25px;
 			/* bottom: 15px; */
 		}
@@ -306,7 +313,6 @@ const Sheet = () => {
 				state.xStackCurrent.flat() + state.yStackCurrent.flat()
 		) {
 			dispatch({ type: SET_IS_WINNER, payload: true });
-			console.log('trig');
 		}
 	}, [
 		state.xStack,
@@ -377,13 +383,14 @@ const Sheet = () => {
 		dispatch({ type: SET_IS_FIELD_ACTIVE, payload: false });
 		dispatch({ type: SET_IS_WINNER, payload: true });
 		setModal({ ...modal, ...data, open: false });
-		const readyToSaveLevel = {
+		const customLvl = {
 			...data,
 			stacks: { xStack: state.xStack, yStack: state.yStack },
 			cords: { x: state.xStack.length, y: state.yStack.length },
 			aparatasInit: { type: null },
 		};
-		console.log(readyToSaveLevel);
+
+		customLevelsUpload(customLvl);
 	};
 
 	const canSave = () => {

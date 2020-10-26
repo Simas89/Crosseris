@@ -17,6 +17,7 @@ import {
 const TopAparatasSyled = styled.div`
 	display: flex;
 	/* align-items: center; */
+	font-family: 'Ubuntu', sans-serif;
 	justify-content: center;
 	.body-wrapper {
 		color: rgb(60, 60, 60);
@@ -31,7 +32,6 @@ const TopAparatasSyled = styled.div`
 
 const DevFieldInitStyled = styled.div`
 	height: 50px;
-	/* border: 1px solid red; */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -129,13 +129,11 @@ const mySelector = createSelector(
 
 const TopAparatas = React.memo((props) => {
 	const state = useSelector(mySelector, shallowEqual);
-	// console.log(props);
 
 	const test = {
 		dev: () => <DevFieldInit yStack={state.yStack} xStack={state.xStack} />,
 		tut: () => props.init.text,
 	};
-	// console.log(props);
 
 	return (
 		<TopAparatasSyled>

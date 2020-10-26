@@ -15,6 +15,9 @@ const GlobalStyle = createGlobalStyle`
   ${'' /* src: url(./fonts/tonkagon.ttf); */}
 	src: url(./fonts/fujimaru.ttf);
 }
+*{
+	-webkit-tap-highlight-color: transparent;
+}
 
 
 	body{
@@ -23,7 +26,6 @@ const GlobalStyle = createGlobalStyle`
 		display: flex;
 		justify-content:center;
 		align-items:center;
-		${'' /* display: grid; */}
 		background-image: url('img/bg1.jpg');
 		background-position: center;
 		background-size: cover;
@@ -40,13 +42,14 @@ function App() {
 		customLevelsGet((data) =>
 			dispatch({ type: STORE_CUSTOM_LEVELS, payload: data }),
 		);
-	}, [dispatch]);
+	}, [dispatch, mode]);
 	return (
 		<>
 			<GlobalStyle />
 			<Menu />
 			{mode === 'HOME' ? <NavScreen /> : <Sheet />}
 			<MultiSelector />
+			{/* // Particles should be removed and done manually instead */}
 			<Particles
 				params={{
 					particles: {

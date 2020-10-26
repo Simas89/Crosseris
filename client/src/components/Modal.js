@@ -56,7 +56,7 @@ const Modal = (props) => {
 	const [state, setState] = React.useState({ title: '', revealed: '' });
 
 	const handleChange = (e, mode) => {
-		e.target.value.length < 15 &&
+		e.target.value.length < 10 &&
 			setState({ ...state, [mode]: e.target.value });
 	};
 

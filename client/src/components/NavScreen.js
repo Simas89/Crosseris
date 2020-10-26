@@ -18,18 +18,13 @@ import { DifficultyTitle } from '../components/common';
 import { useSpring, animated } from 'react-spring';
 
 const NavScreenWrapper = styled.div`
-	/* border: 1px solid red; */
-	/* position: absolute; */
 	height: 100vh;
 	width: 100vw;
 	display: grid;
 	grid-template-columns: minmax(0px, 50vw) minmax(auto, auto);
 	font-family: fujimaru;
-	user-select: none;
-	/* font-family: 'Ubuntu', sans-serif; */
-	/* width: 100%; */
+
 	.spacer {
-		/* border: 1px solid blue; */
 	}
 	.menu {
 		display: flex;
@@ -45,8 +40,8 @@ const NavScreenWrapper = styled.div`
 			.Scrollbars {
 				/* border: 2px solid red; */
 				.content {
-					/* margin-top: 20vh; */
-					padding: 40px 0;
+					margin-top: ${(p) => (p.route ? 0 : 20)}vh;
+					padding: 30px 0;
 					position: relative;
 					display: flex;
 					flex-direction: column;
@@ -71,9 +66,6 @@ const NavScreenWrapper = styled.div`
 						/* border: 1px solid red; */
 
 						.box-simple {
-							/* font-family: fujimaru; */
-							/* border: 1px solid black; */
-							/* height: 50px; */
 							display: flex;
 							justify-content: center;
 							align-items: center;
@@ -86,23 +78,18 @@ const NavScreenWrapper = styled.div`
 							user-select: none;
 							position: relative;
 							height: 300px;
-							/* font-family: fujimaru; */
 							font-size: 2.5rem;
 
 							.original-custom-circle {
-								user-select: none;
 								z-index: -1;
 								position: absolute;
 								height: 300px;
 								width: 300px;
-								/* background-image: url('img/circle.png'); */
 								background-color: rgb(203, 33, 41);
 								mask-image: url('img/circle.png');
 								mask-size: 90% 90%;
 								mask-position: 50% 50%;
 								mask-repeat: no-repeat;
-								/* filter: hue-rotate(180deg); */
-
 								background-position: center;
 								background-size: 70%;
 								background-repeat: no-repeat;
@@ -216,7 +203,6 @@ const NavScreen = () => {
 			api === 'ORIGINAL' ? 'rgb(203, 33, 41)' : 'rgb(0, 107, 99)'
 		}`,
 	}));
-
 	let angle = React.useRef(0);
 
 	React.useEffect(() => {
@@ -235,7 +221,6 @@ const NavScreen = () => {
 			}`,
 		});
 	}, [api, bgAnimSet, rotateAnimSet]);
-	// console.log(completedLevelsGet());
 	const isCompleted = (id) => {
 		return completed.includes(id) ? true : false;
 	};
@@ -333,7 +318,7 @@ const NavScreen = () => {
 	}, [channel, api]);
 
 	return (
-		<NavScreenWrapper>
+		<NavScreenWrapper route={api}>
 			<div className='spacer'></div>
 			<div className='menu'>
 				<div className='center'>

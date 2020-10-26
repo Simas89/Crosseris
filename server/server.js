@@ -1,45 +1,76 @@
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
+require('dotenv').config();
+
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+});
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+	console.log('---Conected to DB!---');
+
+	db.collection('comments')
+		.watch()
+		.on('change', (data) => ' console.log(data.documentKey)');
+});
+mongoose.set('useFindAndModify', true); /// WTF
+
+const Schema = mongoose.Schema;
+
+const LevelSchema = new Schema({
+	title: String,
+	revealed: String,
+	stacks: {
+		xStack: [[Number]],
+		yStack: [[Number]],
+	},
+	cords: { x: Number, y: Number },
+	date: { type: Date, default: Date.now },
+});
+
+const Level = mongoose.model('level', LevelSchema);
 
 const server = express();
 server.use(cors());
 server.use(express.json({ extended: false }));
-const lvlData = [
-	{
-		index: 0,
-		id: 'lol',
-		title: '#_.1',
-		revealed: 'Poop',
-		stacks: {
-			xStack: [[3], [4], [3, 1], [4], [3]],
-			yStack: [[1], [3], [5], [2, 2], [5]],
-		},
-		cords: { x: 5, y: 5 },
-	},
-	{
-		index: 1,
-		id: 'OMG2',
-		title: '#_.2',
-		revealed: 'Solved!',
-		stacks: {
-			xStack: [[1], [1], [0], [1], [1]],
-			yStack: [[2, 2]],
-		},
-		cords: { x: 5, y: 1 },
-	},
-];
 
 const getLevels = (req, res) => {
-	console.log('Im here!');
-	res.json([...lvlData]);
+	Level.find()
+		.sort({ date: 'descending' })
+		.then((data) => {
+			const ready = data.map((element, index) => {
+				return {
+					index,
+					id: element._id,
+					title: element.title,
+					revealed: element.revealed,
+					stacks: element.stacks,
+					cords: element.cords,
+				};
+			});
+			console.log(ready);
+			res.json(ready);
+		});
+	// res.json([...lvlData]);
+	res.status(200);
 };
 
 server.get('/lvl', getLevels);
+server.post('/lvl', (req, res) => {
+	const lvl = new Level({
+		...req.body,
+	});
+	lvl.save();
 
-// Serve static assets in production
+	res.status(200);
+});
+
 if (process.env.NODE_ENV === 'production') {
-	// Set static folder
 	server.use(express.static('../client/build'));
 	server.get('*', (req, res) =>
 		res.sendFile(

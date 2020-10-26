@@ -14,7 +14,7 @@ const levelData = [
 		aparatasInit: {
 			type: 'tut',
 			text: `Hello and welcome to Crosseris! A japanese Nanogram game named after inventor Non Ishida. 
-      Cells in a grid must be colored or left blank corresponding to sets of numbers at the side of the grid.`,
+      Game principle is simple - cells in a grid must be colored or left blank to corresponding sets of numbers at the side of the grid.`,
 		},
 		waterMark: null,
 	},
