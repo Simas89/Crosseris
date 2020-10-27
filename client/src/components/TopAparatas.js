@@ -14,31 +14,38 @@ import {
 	faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
-const TopAparatasSyled = styled.div`
+const WrapperStyled = styled.div`
+	top: 0;
+	left: 0;
+	width: 100%;
+	position: fixed;
+	padding: 10px;
+
 	display: flex;
-	/* align-items: center; */
-	font-family: 'Ubuntu', sans-serif;
+	align-items: center;
 	justify-content: center;
-	.body-wrapper {
-		color: rgb(60, 60, 60);
-		font-family: 'Ubuntu', sans-serif;
-		z-index: 2;
-		top: 10px;
-		width: 350px;
-		position: fixed;
-		/* border: 1px solid green; */
-	}
+	font-family: 'Ubuntu', sans-serif;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: rgba(255, 255, 255, 1);
+
+	border: 1px solid rgba(0, 0, 0, 0.5);
 `;
 
+const Wrapper = (props) => {
+	return <WrapperStyled>{props.children}</WrapperStyled>;
+};
+
 const DevFieldInitStyled = styled.div`
-	height: 50px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	/* border: 1px solid red; */
+	color: rgba(255, 255, 255, 0.8);
+
 	.icon {
-		color: rgb(60, 60, 60);
-		font-size: 2rem;
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 3rem;
 		margin: 0 10px;
 		&:hover {
 			cursor: pointer;
@@ -49,7 +56,6 @@ const DevFieldInitStyled = styled.div`
 		display: flex;
 		align-items: center;
 		.item {
-			/* border: 1px solid black; */
 			display: flex;
 			align-items: center;
 
@@ -74,46 +80,56 @@ const DevFieldInit = (props) => {
 	};
 
 	return displayDevFieldInit ? (
-		<DevFieldInitStyled>
-			<div>Set field size</div>
-			<div className='panel'>
-				<div className='item'>
+		<Wrapper>
+			<DevFieldInitStyled>
+				<div>Set field size</div>
+				<div className='panel'>
+					<div className='item'>
+						<FontAwesomeIcon
+							onClick={() => handleClick({ dir: 'X', inc: false })}
+							icon={faCaretLeft}
+							className='icon'
+						/>
+						<span>{props.xStack}</span>
+						<FontAwesomeIcon
+							onClick={() => handleClick({ dir: 'X', inc: true })}
+							icon={faCaretRight}
+							className='icon'
+						/>
+					</div>
+					<div className='item'>
+						<FontAwesomeIcon
+							onClick={() => handleClick({ dir: 'Y', inc: false })}
+							icon={faCaretLeft}
+							className='icon'
+						/>
+						<span>{props.yStack}</span>
+						<FontAwesomeIcon
+							onClick={() => handleClick({ dir: 'Y', inc: true })}
+							icon={faCaretRight}
+							className='icon'
+						/>
+					</div>
 					<FontAwesomeIcon
-						onClick={() => handleClick({ dir: 'X', inc: false })}
-						icon={faCaretLeft}
-						className='icon'
-					/>
-					<span>{props.xStack}</span>
-					<FontAwesomeIcon
-						onClick={() => handleClick({ dir: 'X', inc: true })}
-						icon={faCaretRight}
-						className='icon'
+						onClick={() => {
+							dispatch({ type: SET_IS_FIELD_ACTIVE, payload: true });
+							dispatch({ type: SET_APARATAS_ACTIVE, payload: false });
+						}}
+						icon={faCheck}
+						className='icon check'
 					/>
 				</div>
-				<div className='item'>
-					<FontAwesomeIcon
-						onClick={() => handleClick({ dir: 'Y', inc: false })}
-						icon={faCaretLeft}
-						className='icon'
-					/>
-					<span>{props.yStack}</span>
-					<FontAwesomeIcon
-						onClick={() => handleClick({ dir: 'Y', inc: true })}
-						icon={faCaretRight}
-						className='icon'
-					/>
-				</div>
-				<FontAwesomeIcon
-					onClick={() => {
-						dispatch({ type: SET_IS_FIELD_ACTIVE, payload: true });
-						dispatch({ type: SET_APARATAS_ACTIVE, payload: false });
-					}}
-					icon={faCheck}
-					className='icon check'
-				/>
-			</div>
-		</DevFieldInitStyled>
+			</DevFieldInitStyled>
+		</Wrapper>
 	) : null;
+};
+
+const TutMessage = (props) => {
+	return (
+		<Wrapper>
+			<span style={{ width: '350px' }}>{props.msg}</span>
+		</Wrapper>
+	);
 };
 
 const mySelector = createSelector(
@@ -132,14 +148,10 @@ const TopAparatas = React.memo((props) => {
 
 	const test = {
 		dev: () => <DevFieldInit yStack={state.yStack} xStack={state.xStack} />,
-		tut: () => props.init.text,
+		tut: () => <TutMessage msg={props.init.text} />,
 	};
 
-	return (
-		<TopAparatasSyled>
-			<div className='body-wrapper'>{test[props.init.type]()}</div>
-		</TopAparatasSyled>
-	);
+	return <>{test[props.init.type]()}</>;
 });
 
 export default TopAparatas;
