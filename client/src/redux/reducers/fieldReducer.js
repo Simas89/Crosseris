@@ -59,6 +59,9 @@ const initialState = {
 	displayDevFieldInit: true,
 };
 
+// Misruotas reduceris. Pirma kart kadangi Redux naudoju. Daryta vienaip, kitaip, o paskui dar ir su Immer.
+// Panasu, kad toliau prie Immer ir liksiu
+
 export default (state = initialState, action = {}) =>
 	produce(state, (draft) => {
 		switch (action.type) {
