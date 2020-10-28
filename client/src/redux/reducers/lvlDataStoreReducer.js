@@ -2,15 +2,15 @@ import produce from 'immer';
 import {
 	STORE_ORIGINAL_LEVELS,
 	STORE_CUSTOM_LEVELS,
-	SET_ORIGINAL_OR_CUSTOM_LVL_DATA_API,
-} from '../types';
-import levelData from '../../levelData';
+	SET_ORIGINAL_OR_CUSTOM_LVL_DATA_SOURCE,
+} from 'redux/types';
+import levelData from 'levelData';
 
 const initialState = {
 	custom: [],
 	original: levelData,
-	channel: levelData,
-	api: null,
+	lvlDataSource: levelData,
+	route: null,
 };
 
 export default (state = initialState, action = {}) =>
@@ -24,14 +24,14 @@ export default (state = initialState, action = {}) =>
 				draft.original = action.payload;
 
 				break;
-			case SET_ORIGINAL_OR_CUSTOM_LVL_DATA_API:
+			case SET_ORIGINAL_OR_CUSTOM_LVL_DATA_SOURCE:
 				// console.log(action.payload);
-				draft.api = action.payload;
+				draft.route = action.payload;
 				if (action.payload === 'ORIGINAL') {
-					draft.channel = state.original;
+					draft.lvlDataSource = state.original;
 				}
 				if (action.payload === 'CUSTOM') {
-					draft.channel = state.custom;
+					draft.lvlDataSource = state.custom;
 				}
 				break;
 			default:

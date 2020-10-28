@@ -8,3 +8,4 @@ export * from './compareMatch';
 export * from './isTouch';
 export * from './localStorageCompletedLevels';
 export * from './fetchCustomLevels';
+export * from './sheetAnimationCalc';

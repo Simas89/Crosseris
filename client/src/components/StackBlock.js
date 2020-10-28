@@ -1,19 +1,19 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { BlockBase } from './common';
+import { BlockBase } from 'common/components';
 import Marker from './Marker';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const StackBlockWrapper = styled(BlockBase)`
+	position: relative;
 	width: ${(p) => p.blockScale}px;
 	height: ${(p) => p.blockScale}px;
 
-	position: relative;
 	span {
 		font-size: ${(p) => p.blockScale * 0.6}px;
-		/* opacity: 0.6; */
 		color: rgb(60, 60, 60);
 	}
+
 	&:hover {
 		cursor: default;
 	}
@@ -35,23 +35,18 @@ const StackBlockWrapper = styled(BlockBase)`
 	}
 `;
 
-const StackBlock = (props) => {
+const StackBlock = React.memo((props) => {
+	const isWinner = useSelector((state) => state.field.isWinner);
+	const blockScale = useSelector((state) => state.field.blockScale.blockPx);
 	return (
 		<StackBlockWrapper
 			compare={props.compare}
-			blockScale={props.blockScale}
-			fade={props.isWinner}>
+			blockScale={blockScale}
+			fade={isWinner}>
 			<span>{props.children}</span>
 			{props.compare && <Marker />}
 		</StackBlockWrapper>
 	);
-};
+});
 
-const mapStateToProps = (state) => {
-	return {
-		isWinner: state.field.isWinner,
-		blockScale: state.field.blockScale.blockPx,
-	};
-};
-
-export default connect(mapStateToProps, null)(StackBlock);
+export default StackBlock;

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import StackBlock from './StackBlock';
-import { BlockBase } from './common';
-import { compareMatch } from '../utils';
+import { BlockBase } from 'common/components';
+import { compareMatch } from 'common/utils';
 
 const StackBlockContainerWrapper = styled(BlockBase)`
 	display: grid;

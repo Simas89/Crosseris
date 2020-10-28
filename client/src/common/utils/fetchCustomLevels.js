@@ -8,7 +8,7 @@ export const customLevelsGet = (callback) => {
 			callback(data);
 		})
 		.catch((err) => {
-			console.log(err);
+			// console.log(err);
 			callback([]);
 		});
 };
@@ -21,9 +21,5 @@ export const customLevelsUpload = (data) => {
 			Accept: 'application/json',
 		},
 		body: JSON.stringify(data),
-	})
-		.then((r) => r.json())
-		.then((res) => {
-			console.log(res);
-		});
+	});
 };

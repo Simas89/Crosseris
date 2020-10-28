@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { createSelector } from 'reselect';
-import { ZOOM, UN_DO } from '../redux/types';
-import { FloatingBtn } from '../components/common';
+import { ZOOM, UN_DO } from 'redux/types';
+import { FloatingBtn } from 'common/components';
+import useAudio from 'common/hooks/useAudio';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faSearchMinus,
@@ -11,8 +12,6 @@ import {
 	faVolumeUp,
 	faVolumeMute,
 } from '@fortawesome/free-solid-svg-icons';
-
-import useAudio from '../hooks/useAudio';
 
 const menuStateselector = createSelector(
 	(state) => state.field,

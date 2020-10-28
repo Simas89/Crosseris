@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const Line = styled.div`
 	position: absolute;
-	/* transition: background-color 0.2s; */
 	background-color: ${(p) =>
 		p.canModify ? 'rgb(60, 60, 60)' : 'rgb(110, 110, 110)'};
 	z-index: 1;

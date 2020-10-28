@@ -1,11 +1,8 @@
 import React from 'react';
-import { connect, useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { MULTI_SELECT_TRIG, SET_BLOCK } from 'redux/types';
 import { createSelector } from 'reselect';
-import {
-	setBlockAction,
-	mulstiSelectAction,
-} from '../redux/actions/fieldActions';
-import { BlockBase } from './common';
+import { BlockBase } from 'common/components';
 import Marker from './Marker';
 import { useSpring, animated } from 'react-spring';
 
@@ -24,13 +21,17 @@ const blockStateSelector = createSelector(
 	(field) => {
 		return {
 			isFieldActive: field.isFieldActive,
+			mode: field.mode,
+			isWinner: field.isWinner,
 		};
 	},
 );
 
-const Block = (props) => {
+const Block = React.memo((props) => {
+	// console.log('block');
 	const [multiSelectMode, setMultiSelectMode] = React.useState(null);
 	const ref = React.useRef(null);
+	const dispatch = useDispatch();
 
 	const state = useSelector(blockStateSelector, shallowEqual);
 
@@ -39,30 +40,34 @@ const Block = (props) => {
 	};
 
 	const onMouseDown = () => {
-		props.mode === 'PLAY' &&
-			setMultiSelectMode(setType(props.type, props.mode));
+		state.mode === 'PLAY' &&
+			setMultiSelectMode(setType(props.type, state.mode));
 
-		props.setBlock({
-			index: props.index,
-			type: setType(props.type, props.mode),
-			origin: 'BLOCK',
+		dispatch({
+			type: SET_BLOCK,
+			payload: {
+				index: props.index,
+				type: setType(props.type, state.mode),
+				origin: 'BLOCK',
+			},
 		});
 	};
 
 	const onMouseLeave = () => {
-		// console.log('m-leave');
 		if (multiSelectMode) {
 			const dimensions = ref.current.getBoundingClientRect();
-			setTimeout(() => {
-				props.multiSelect({
+
+			dispatch({
+				type: MULTI_SELECT_TRIG,
+				payload: {
 					mode: multiSelectMode,
 					index: props.index,
 					x: parseInt(dimensions.x),
 					y: parseInt(dimensions.y),
 					width: parseInt(dimensions.width),
-				});
-				setMultiSelectMode(null);
-			}, 0);
+				},
+			});
+			setMultiSelectMode(null);
 		}
 	};
 
@@ -85,18 +90,9 @@ const Block = (props) => {
 			onTouchMove={state.isFieldActive && props.isTouch ? onMouseLeave : null}
 			type={props.type}
 			isFieldActive={state.isFieldActive}>
-			{props.type === 'CROSS' && <Marker isWinner={props.isWinner} cross />}
+			{props.type === 'CROSS' && <Marker isWinner={state.isWinner} cross />}
 		</BlockBaseAnimated>
 	);
-};
+});
 
-const mapStateToProps = (state) => {
-	return { mode: state.field.mode, isWinner: state.field.isWinner };
-};
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setBlock: (blockParam) => dispatch(setBlockAction(blockParam)),
-		multiSelect: (data) => dispatch(mulstiSelectAction(data)),
-	};
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Block);
+export default Block;

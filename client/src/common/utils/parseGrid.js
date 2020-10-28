@@ -1,6 +1,6 @@
 import React from 'react';
 import { getLongestSubArrLength } from './';
-import { Line } from '../components/common';
+import { Line } from 'common/components';
 
 export const parseGrid = (
 	{ xStack, yStack, blockScale },

@@ -17,7 +17,7 @@ import {
 	DEV_SET_TITLES,
 	PLAY_LEVEL_INIT,
 } from '../types';
-import { calcStacks, calcBlockSize, isObjEmpty } from '../../utils';
+import { calcStacks, calcBlockSize, isObjEmpty } from 'common/utils';
 
 let stacksBuild = {};
 let nextState = null;
@@ -26,6 +26,7 @@ const initialState = {
 	mode: 'HOME',
 
 	blockScale: {},
+	grid: {},
 	minBlockScale: 40,
 	windowSize: {
 		width: undefined,
@@ -62,7 +63,6 @@ export default (state = initialState, action = {}) =>
 	produce(state, (draft) => {
 		switch (action.type) {
 			case SET_FIELD:
-				// console.log(SET_FIELD);
 				const iterations = action.payload.x * action.payload.y;
 
 				let fieldTemp = [];
@@ -74,7 +74,6 @@ export default (state = initialState, action = {}) =>
 						xCol = 1;
 						yRow++;
 					}
-
 					fieldTemp.push({ index: i, x: xCol, y: yRow, type: 'NULL' });
 				}
 
@@ -85,6 +84,25 @@ export default (state = initialState, action = {}) =>
 					...calcStacks(state.mode, [...fieldTemp]),
 					title: action.payload.title,
 					history: [],
+				};
+
+			case SET_PLAY_STACK:
+				return {
+					...state,
+					yStack: [...action.payload.yStack],
+					xStack: [...action.payload.xStack],
+					...calcStacks(state.mode, state.fieldArr),
+				};
+
+			case SET_BLOCK_SIZE:
+				return {
+					...state,
+					windowSize: action.payload,
+					blockScale: calcBlockSize(
+						{ xStack: state.xStack, yStack: state.yStack },
+						action.payload,
+						state.minBlockScale,
+					),
 				};
 
 			case SET_IS_FIELD_ACTIVE:
@@ -101,29 +119,8 @@ export default (state = initialState, action = {}) =>
 					isFieldActive: action.payload ? false : true,
 				};
 			}
-			case SET_PLAY_STACK:
-				// console.log(SET_PLAY_STACK);
-				return {
-					...state,
-					yStack: [...action.payload.yStack],
-					xStack: [...action.payload.xStack],
-					...calcStacks(state.mode, state.fieldArr),
-				};
-
-			case SET_BLOCK_SIZE:
-				// console.log(SET_BLOCK_SIZE);
-				return {
-					...state,
-					windowSize: action.payload,
-					blockScale: calcBlockSize(
-						{ xStack: state.xStack, yStack: state.yStack },
-						action.payload,
-						state.minBlockScale,
-					),
-				};
 
 			case SET_BLOCK:
-				// console.log(SET_BLOCK);
 				const fieldArrBuild = state.fieldArr.map((element, index) => {
 					if (action.payload.index === index) {
 						return { ...element, type: action.payload.type };
@@ -151,11 +148,9 @@ export default (state = initialState, action = {}) =>
 				};
 
 			case UN_DO:
-				// console.log(UN_DO);
 				nextState = produce(state, (draftState) => {
 					if (state.history.length) {
 						state.history[state.history.length - 1].forEach((element) => {
-							// console.log(element);
 							draftState.fieldArr[element.index] = {
 								...state.fieldArr[element.index],
 								type: element.type,
@@ -176,7 +171,6 @@ export default (state = initialState, action = {}) =>
 				return { ...state, multiSelect: action.payload };
 
 			case STOP_MULTI_SELECT:
-				// console.log(STOP_MULTI_SELECT);
 				return {
 					...state,
 					multiSelect: {},
@@ -307,11 +301,9 @@ export default (state = initialState, action = {}) =>
 				};
 
 			case DEV_SET_TITLES:
-				// console.log(action.payload);
 				return { ...state, levelDev: { ...state.levelDev, ...action.payload } };
 
 			case PLAY_LEVEL_INIT:
-				// console.log(action.payload);
 				draft.isWinner = false;
 				draft.fieldArr = [];
 				draft.levelPlay = action.payload;
@@ -319,10 +311,6 @@ export default (state = initialState, action = {}) =>
 				draft.isFieldActive = true;
 				break;
 
-			// case STORE_CUSTOM_LEVELS:
-			// 	console.log(action.payload);
-			// 	draft.customLevels = action.payload;
-			// 	break;
 			default:
 				return state;
 		}

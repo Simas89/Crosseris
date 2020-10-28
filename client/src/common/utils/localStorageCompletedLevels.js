@@ -10,12 +10,8 @@ export const completedLevelsGet = () => {
 
 export const completedLevelsSave = (id) => {
 	let data = JSON.parse(localStorage.getItem('CROSSERIS_SAVED'));
-
 	if (!data.includes(id)) {
 		data.push(id);
 	}
 	localStorage.setItem('CROSSERIS_SAVED', JSON.stringify(data));
-
-	// console.log(data);
-	// console.log(data);
 };

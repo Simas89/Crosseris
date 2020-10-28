@@ -10,12 +10,12 @@ const ModalStyled = styled.div`
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
+	color: rgb(60, 60, 60);
 	z-index: 10;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-family: 'Ubuntu', sans-serif;
-	color: rgb(60, 60, 60);
 	font-size: 1rem;
 	.body {
 		position: relative;
@@ -36,9 +36,6 @@ const ModalStyled = styled.div`
 				color: rgb(60, 60, 60);
 				padding: 10px;
 				font-size: 1.1rem;
-			}
-			input[type='submit'] {
-				/* color: red; */
 			}
 		}
 		.icon {
@@ -79,7 +76,7 @@ const Modal = (props) => {
 						type='text'
 						value={state.title}
 					/>
-					<span>Reveal title. Shown only after completing the puzzle.</span>
+					<span>Reveal title. Shown only after completing the puzzle</span>
 					<input
 						onChange={(e) => handleChange(e, 'revealed')}
 						type='text'
@@ -87,7 +84,7 @@ const Modal = (props) => {
 					/>
 
 					<input
-						disabled={state.title === '' || state.reveal === ''}
+						disabled={state.title === '' || state.revealed === ''}
 						onClick={handleClick}
 						type='submit'
 						value='Save'

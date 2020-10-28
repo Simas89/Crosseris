@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { STOP_MULTI_SELECT, MULTI_SELECT_APPLY } from '../redux/types';
-import useMousePosition from '../hooks/useMousePosition';
-import { calcMultiSelectedBlocks, isObjEmpty, isTouch } from '../utils';
+import useMousePosition from '../common/hooks/useMousePosition';
+import { calcMultiSelectedBlocks, isObjEmpty, isTouch } from 'common/utils';
 
 let selectedBlocks = 0;
 let selectedBlocksPrev = 0;
@@ -13,7 +13,6 @@ const MultiSelector = () => {
 	const dispatch = useDispatch();
 
 	const stopMultiSelectExec = React.useCallback(() => {
-		// stopMultiSelect();
 		dispatch({ type: STOP_MULTI_SELECT });
 		setDir({ dir: '', lock: false });
 	}, [dispatch]);
@@ -49,7 +48,7 @@ const MultiSelector = () => {
 			.selectedBlocks;
 
 		if (selectedBlocks !== selectedBlocksPrev && dir.dir !== '') {
-			// state update stack trace warning -- setTimeout temp fix
+			// state update stack trace warning -- setTimeout for temp fix.  ??????
 			setTimeout(
 				() =>
 					dispatch({

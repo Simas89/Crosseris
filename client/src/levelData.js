@@ -1,4 +1,4 @@
-import { isTouch } from './utils';
+import { isTouch } from 'common/utils';
 
 const levelData = [
 	{

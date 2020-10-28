@@ -5,20 +5,8 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import * as serviceWorker from './serviceWorker';
 
-// let App = () => {
-// 	return null;
-// };
-
-// const wtfLoader = () => {
-// 	App = React.lazy(() => import('./components/App'));
-// };
-
-// wtfLoader();
-
 ReactDOM.render(
 	<Provider store={store}>
-		{/* <App /> */}
-
 		<App />
 	</Provider>,
 	document.getElementById('root'),

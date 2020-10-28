@@ -1,24 +1,22 @@
 import React from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { STORE_CUSTOM_LEVELS } from '../redux/types';
+import { useSelector, useDispatch } from 'react-redux';
+import { STORE_CUSTOM_LEVELS } from 'redux/types';
 import { createGlobalStyle } from 'styled-components';
-import { customLevelsGet } from '../utils';
+import { customLevelsGet } from 'common/utils';
 import Particles from 'react-particles-js';
-import Sheet from './Sheet';
-import Menu from './Menu';
 import MultiSelector from './MultiSelector';
-import NavScreen from './NavScreen';
+const NavScreen = React.lazy(() => import('./NavScreen'));
+const Sheet = React.lazy(() => import('./Sheet'));
+const Menu = React.lazy(() => import('./Menu'));
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: fujimaru;
-  ${'' /* src: url(./fonts/tonkagon.ttf); */}
 	src: url(./fonts/fujimaru.ttf);
 }
 *{
 	-webkit-tap-highlight-color: transparent;
 }
-
 
 	body{
 		margin: 0;
@@ -29,27 +27,27 @@ const GlobalStyle = createGlobalStyle`
 		background-image: url('img/bg1.jpg');
 		background-position: center;
 		background-size: cover;
-		display: flex;
-		${'' /* justify-content: center; */}
-		align-items: center;
 	}
 `;
 
 function App() {
-	const mode = useSelector((state) => state.field.mode, shallowEqual);
+	const mode = useSelector((state) => state.field.mode);
 	const dispatch = useDispatch();
 	React.useEffect(() => {
-		customLevelsGet((data) =>
-			dispatch({ type: STORE_CUSTOM_LEVELS, payload: data }),
-		);
+		mode === 'HOME' &&
+			customLevelsGet((data) =>
+				dispatch({ type: STORE_CUSTOM_LEVELS, payload: data }),
+			);
 	}, [dispatch, mode]);
 	return (
 		<>
 			<GlobalStyle />
-			<Menu />
-			{mode === 'HOME' ? <NavScreen /> : <Sheet />}
+			<React.Suspense fallback={null}>
+				<Menu />
+				{mode === 'HOME' ? <NavScreen /> : <Sheet />}
+			</React.Suspense>
 			<MultiSelector />
-			{/* // Particles should be removed and done manually instead */}
+			{/* // Particles package should be removed and done manually instead */}
 			<Particles
 				params={{
 					particles: {
