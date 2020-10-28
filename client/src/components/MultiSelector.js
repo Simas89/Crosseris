@@ -31,12 +31,12 @@ const MultiSelector = () => {
 
 	React.useEffect(() => {
 		if (!isObjEmpty(multiSelect)) {
-			if (x < multiSelect.x || x > multiSelect.x + multiSelect.width - 1) {
-				!dir.lock && setDir({ dir: 'row', lock: true });
+			if (y < multiSelect.y || y > multiSelect.y + multiSelect.width - 1) {
+				setDir({ dir: 'col', lock: true });
 			}
 
-			if (y < multiSelect.y || y > multiSelect.y + multiSelect.width - 1) {
-				!dir.lock && setDir({ dir: 'col', lock: true });
+			if (x < multiSelect.x || x > multiSelect.x + multiSelect.width - 1) {
+				setDir({ dir: 'row', lock: true });
 			}
 		} else {
 			setDir({ dir: '', lock: false });

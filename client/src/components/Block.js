@@ -7,7 +7,6 @@ import Marker from './Marker';
 import { useSpring, animated } from 'react-spring';
 
 const setType = (type, mode) => {
-	// console.log(type);
 	if (type === 'MARK') return mode === 'PLAY' ? 'CROSS' : 'NULL';
 	if (type === 'MARK') return 'CROSS';
 	else if (type === 'NULL') return 'MARK';
