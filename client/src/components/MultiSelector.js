@@ -11,6 +11,7 @@ const MultiSelector = () => {
 	const multiSelect = useSelector((state) => state.field.multiSelect);
 	const { x, y } = useMousePosition(isTouch);
 	const dispatch = useDispatch();
+	// console.log(x, y);
 
 	const stopMultiSelectExec = React.useCallback(() => {
 		dispatch({ type: STOP_MULTI_SELECT });
@@ -31,17 +32,21 @@ const MultiSelector = () => {
 
 	React.useEffect(() => {
 		if (!isObjEmpty(multiSelect)) {
-			if (y < multiSelect.y || y > multiSelect.y + multiSelect.width - 1) {
-				!dir.lock && setDir({ dir: 'col', lock: true });
-			}
-
 			if (x < multiSelect.x || x > multiSelect.x + multiSelect.width - 1) {
-				!dir.lock && setDir({ dir: 'row', lock: true });
+				if (!dir.lock) {
+					setDir({ dir: 'row', lock: true });
+				}
+			}
+			if (y < multiSelect.y || y > multiSelect.y + multiSelect.width - 1) {
+				if (!dir.lock) {
+					setDir({ dir: 'col', lock: true });
+				}
 			}
 		} else {
 			setDir({ dir: '', lock: false });
 		}
-	}, [multiSelect, x, y, dir.lock]);
+		//eslint-disable-next-line
+	}, [x, y, dir.lock]);
 
 	if (!isObjEmpty(multiSelect) && dir.dir !== '') {
 		selectedBlocks = calcMultiSelectedBlocks(x, y, multiSelect, dir.dir)
